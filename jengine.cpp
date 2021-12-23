@@ -34,7 +34,7 @@ void Resource::load(void) {
     int status;
     
     /* Open tar archive for reading */
-    status = mtar_open(&tar, "game.dat", "r");    
+    status = mtar_open(&tar, "colors.dat", "r");    
     if(status!=0) {
         string error = "Error opening tar file "+ string(mtar_strerror(status));
         throw JEngineException(error);
