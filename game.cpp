@@ -3,7 +3,23 @@
 #include "game.hpp"
 #include "jengine.hpp"
 
-Juego::Juego() {
+Game::Game() {
+}
+Game::~Game() {
+}
+
+void Game::init_phases(void) {
+    this->phases.resize(1);
+    this->phases[0] = new Demo();
+}
+
+void Game::close_phases(void) {
+    delete this->phases[0];
+    this->phases.resize(0);
+}
+
+
+Demo::Demo() {
     x=0;
     y=0;
     vx=0;
@@ -12,10 +28,10 @@ Juego::Juego() {
     flip_h=SDL_FLIP_NONE;
 }
 
-Juego::~Juego() {
+Demo::~Demo() {
 }
 
-void Juego::render_game(){ 
+void Demo::render_phase(SDL_Renderer* sdl_renderer){ 
     SDL_Rect sdl_rect_origin, sdl_rect_target;
     // Render background
     SDL_RenderCopy(sdl_renderer, texture_background.texture, NULL, NULL);
@@ -33,23 +49,23 @@ void Juego::render_game(){
     SDL_RenderCopyEx(sdl_renderer, texture_sprites.texture, &sdl_rect_origin,  &sdl_rect_target, 0.0, NULL, flip_h);
 }
 
-void Juego::update_game() {
+void Demo::update_phase() {
     x+=vx;
     y+=vy;
 }
 
-void Juego::load_media() {
-    this->load_texture(&texture_background, "background.png");
-    this->load_texture(&texture_sprites, "sprites.png");
+void Demo::load_media() {
+    JEngine::load_texture(&texture_background, "background.png");
+    JEngine::load_texture(&texture_sprites, "sprites.png");
 }
 
-void Juego::close_media() {
+void Demo::close_media() {
   // Destroy background texture
   SDL_DestroyTexture(texture_background.texture);
   SDL_DestroyTexture(texture_sprites.texture);
 }
 
-void Juego::process_input(SDL_Event *e) {
+void Demo::process_input(SDL_Event *e) {
     if(e->type == SDL_KEYDOWN && e->key.keysym.sym==SDLK_LEFT) {
         vx=-2;
         sheet_y=331;

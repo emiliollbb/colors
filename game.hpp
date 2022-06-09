@@ -1,9 +1,20 @@
+#include "jphase.hpp"
 #include "jengine.hpp"
 
 #ifndef GAME_HPP
 #define GAME_HPP
 
-class Juego: public JEngine {
+class Game: public JEngine {
+    private:        
+    protected:
+    public:
+        Game(void);
+        ~Game(void);
+        void init_phases(void);        
+        void close_phases(void);
+};
+
+class Demo: public JPhase {
     private:
         // Textura fondo
         struct sized_texture texture_background;
@@ -13,13 +24,15 @@ class Juego: public JEngine {
         SDL_RendererFlip flip_h;
     protected:
     public:
-        Juego(void);
-        ~Juego(void);
-        void render_game(void);
-        void update_game(void);
+        Demo(void);
+        ~Demo(void);
+        void render_phase(SDL_Renderer* sdl_renderer);
+        void update_phase(void);
         void load_media(void);
         void close_media(void);
         void process_input(SDL_Event *e);
+        int run_phase(void);
+        
 };
 
 

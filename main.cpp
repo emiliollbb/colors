@@ -8,10 +8,10 @@ using namespace std;
 int main(int argc, char* argv[])
 {
 	try {
-        Juego *juego = new Juego();
-        juego->run();
+        Game *game = new Game();
+        game->run();
             
-        delete juego;
+        delete game;
     } catch (JEngineException &e) {
 		cout << "Error! " << *e.what() << endl;
         flush(cout);        

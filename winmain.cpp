@@ -9,9 +9,9 @@ using namespace std;
 int main(int argc, char* argv[])
 {
 	try {
-		Juego *juego = new Juego();
-		juego->run();
-		delete juego;
+		Game *game = new Game();
+		game->run();
+		delete game;
 	} catch (JEngineException &e) {
 		MessageBox(
 			NULL, e.what()->c_str(), "Error!", MB_ICONWARNING | MB_OK

@@ -90,6 +90,8 @@ JEngine::~JEngine() {
 
 void JEngine::init() {
     quit=false;
+    current_phase=0;
+    previous_phase=-1;
     
     //Initialize SDL
     if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_JOYSTICK ) < 0 )
@@ -204,7 +206,7 @@ void JEngine::process_input_internal(SDL_Event *e)
       quit = 1;
     }
     else {
-        process_input(e);
+        this->phases[current_phase]->process_input(e);
     }
 }
 
@@ -216,8 +218,8 @@ void JEngine::sync_render()
   
     // Count frames
     frames++;
-    // Update game data
-    update_game();
+    // Update phase data
+    this->phases[current_phase]->update_phase();
   
     // Render screen
     render();  
@@ -252,12 +254,16 @@ void JEngine::run()
     // Init SDL
     init();
   
-    // Load Media
-    load_media();
-      
     // Main game loop
     while(!quit)
     {
+      if(this->current_phase!=this->previous_phase) {
+        this->phases[current_phase]->init();
+        // Load Media
+        this->phases[current_phase]->load_media();
+        this->previous_phase=this->current_phase;
+      }
+        
       //Handle events on queue
       while( SDL_PollEvent( &e ) != 0 )
       {
@@ -266,65 +272,26 @@ void JEngine::run()
     
       // Update & Render
       sync_render();
+      
+      if(this->current_phase!=this->previous_phase) {
+        this->phases[current_phase]->close_media();
+        this->phases[current_phase]->close();
+      }
     }
-  
-    // Close media
-    close_media();
-    // Close SDL
-    close();
 }
 
 void JEngine::render() {
     //Clear screen
-    SDL_SetRenderDrawColor( sdl_renderer, 0x00, 0x00, 0x00, 0xFF );
-    SDL_RenderClear( sdl_renderer );
+    SDL_SetRenderDrawColor(this->sdl_renderer, 0x00, 0x00, 0x00, 0xFF);
+    SDL_RenderClear(this->sdl_renderer);
   
     // Actual rendering
-    render_game();
+    this->phases[current_phase]->render_phase(this->sdl_renderer);
   
     //Update screen
-    SDL_RenderPresent(sdl_renderer);
+    SDL_RenderPresent(this->sdl_renderer);
 }
 
-void JEngine::load_texture(struct sized_texture *texture, Resource *res) {
-    // Aux surface
-    SDL_Surface* loadedSurface;
-    SDL_RWops *rw;
-  
-    //Load image at specified path
-    rw = SDL_RWFromMem(res->getData(), res->getSize());
-    loadedSurface = IMG_Load_RW(rw, 1);
-    if(loadedSurface == NULL )
-    {
-      string error = "Unable to load image %s! SDL_image Error: " + res->getFileName() + string(IMG_GetError());
-	  throw JEngineException(error);
-    }
-    //Get image dimensions 
-    texture->width = loadedSurface->w; 
-    texture->height = loadedSurface->h;
-    //Create texture from surface pixels
-    texture->texture = SDL_CreateTextureFromSurface(sdl_renderer, loadedSurface);
-    if( texture->texture == NULL )
-    {
-      string error = "Unable to create texture from %s! SDL Error: " + res->getFileName() + string(SDL_GetError());
-	  throw JEngineException(error);
-    }
-  
-    //Get rid of old loaded surface
-    SDL_FreeSurface(loadedSurface);
-}
-
-void JEngine::load_texture(struct sized_texture *texture, string filename) {
-    Resource *resource = new Resource(filename);
-    resource->load();
-    load_texture(texture, resource);
-    delete resource;
-    
-}
-
-void JEngine::update_game(){}
-void JEngine::render_game(){}
-void JEngine::load_media(){}
-void JEngine::close_media(){}
-void JEngine::process_input(SDL_Event *e){}
+void JEngine::init_phases(void){}
+void JEngine::close_phases(void){}
 
