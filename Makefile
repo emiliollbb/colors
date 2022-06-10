@@ -59,4 +59,4 @@ colors.dat: background.png sprites.png
 	tar cvf colors.dat background.png sprites.png
 
 colors.zip: colors.exe colors.dat
-	zip -j colors.zip colors.exe colors.dat $(SDL_WIN)/bin/SDL2.dll $(SDL_WIN_IMAGE)/bin/libpng16-16.dll $(SDL_WIN_IMAGE)/bin/zlib1.dll $(SDL_WIN_TTF)/bin/SDL2_ttf.dll $(SDL_WIN_TTF)/bin/libfreetype-6.dll $(SDL_WIN_MIXER)/bin/SDL2_mixer.dll background.png
+	zip -j colors.zip colors.exe colors.dat $(SDL_WIN)/bin/SDL2.dll $(SDL_WIN_IMAGE)/bin/libpng16-16.dll $(SDL_WIN_IMAGE)/bin/zlib1.dll $(SDL_WIN_TTF)/bin/SDL2_ttf.dll $(SDL_WIN_TTF)/bin/libfreetype-6.dll $(SDL_WIN_MIXER)/bin/SDL2_mixer.dll
