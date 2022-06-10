@@ -83,9 +83,6 @@ string* JEngineException::what(void) {
 }
 
 
-
-
-
 JPhase::JPhase() {}
 
 JPhase::~JPhase() {}
@@ -134,13 +131,6 @@ void JPhase::update_phase(void){}
 void JPhase::load_media(void){}
 void JPhase::close_media(void){}
 void JPhase::process_input(SDL_Event *e){}
-
-
-
-
-
-
-
 
 
 JEngine::JEngine() {
