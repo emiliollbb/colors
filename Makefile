@@ -34,8 +34,8 @@ main.o: main.cpp
 colors: main.o jengine.o game.o microtar.o
 	gcc main.o jengine.o microtar.o game.o $(LINKER_FLAGS) -o colors
 	
-debug: jengine.cpp jengine.hpp juego.cpp game.hpp microtar.c main.cpp
-	gcc -g $(LINKER_FLAGS) jengine.cpp game.cpp main.cpp -o debug
+debug: jengine.cpp jengine.hpp game.cpp game.hpp microtar.h microtar.c main.cpp
+	gcc -g $(LINKER_FLAGS) jengine.cpp game.cpp main.cpp microtar.c -o debug
 
 clean:
 	rm -f *.o *.exe *.zip *.dat colors debug

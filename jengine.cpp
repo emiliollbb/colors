@@ -304,6 +304,9 @@ void JEngine::run()
   
     // Init SDL
     init();
+    
+    // Init phases
+    init_phases();
   
     // Main game loop
     while(!quit)
@@ -329,6 +332,8 @@ void JEngine::run()
         this->phases[current_phase]->close();
       }
     }
+    
+    close_phases();
 }
 
 void JEngine::render() {
