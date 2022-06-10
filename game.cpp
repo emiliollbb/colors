@@ -20,8 +20,8 @@ void Game::close_phases(void) {
 
 
 Demo::Demo() {
-    x=0;
-    y=0;
+    x=450;
+    y=250;
     vx=0;
     vy=0;
     sheet_y=202;
