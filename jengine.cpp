@@ -82,6 +82,67 @@ string* JEngineException::what(void) {
 	return &message;
 }
 
+
+
+
+
+JPhase::JPhase() {}
+
+JPhase::~JPhase() {}
+
+void JPhase::load_texture(SDL_Renderer* sdl_renderer, struct sized_texture *texture, Resource *res) {
+    // Aux surface
+    SDL_Surface* loadedSurface;
+    SDL_RWops *rw;
+  
+    //Load image at specified path
+    rw = SDL_RWFromMem(res->getData(), res->getSize());
+    loadedSurface = IMG_Load_RW(rw, 1);
+    if(loadedSurface == NULL )
+    {
+      string error = "Unable to load image %s! SDL_image Error: " + res->getFileName() + string(IMG_GetError());
+	  throw JEngineException(error);
+    }
+    //Get image dimensions 
+    texture->width = loadedSurface->w; 
+    texture->height = loadedSurface->h;
+    //Create texture from surface pixels
+    texture->texture = SDL_CreateTextureFromSurface(sdl_renderer, loadedSurface);
+    if( texture->texture == NULL )
+    {
+      string error = "Unable to create texture from %s! SDL Error: " + res->getFileName() + string(SDL_GetError());
+	  throw JEngineException(error);
+    }
+  
+    //Get rid of old loaded surface
+    SDL_FreeSurface(loadedSurface);
+}
+
+void JPhase::load_texture(SDL_Renderer* sdl_renderer, struct sized_texture *texture, string filename) {
+    Resource *resource = new Resource(filename);
+    resource->load();
+    load_texture(sdl_renderer, texture, resource);
+    delete resource;
+    
+}
+
+void JPhase::init(void){}
+void JPhase::close(void){}
+int JPhase::run_phase(void){return -1;}
+void JPhase::render_phase(SDL_Renderer* sdl_renderer){}
+void JPhase::update_phase(void){}
+void JPhase::load_media(void){}
+void JPhase::close_media(void){}
+void JPhase::process_input(SDL_Event *e){}
+
+
+
+
+
+
+
+
+
 JEngine::JEngine() {
 }
 

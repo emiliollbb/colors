@@ -4,7 +4,6 @@
 #include <SDL2/SDL_mixer.h>
 #include <string>
 #include <vector>
-#include "jphase.hpp"
 
 #ifndef JENGINE_HPP
 #define JENGINE_HPP
@@ -42,6 +41,25 @@ class Resource {
 		void load(void);
 		char* getData(void);
 		long getSize(void);
+};
+
+class JPhase {
+    private:
+        void load_texture(SDL_Renderer* sdl_renderer, struct sized_texture *texture, Resource *res);
+    protected:
+        
+    public:
+        JPhase(void);
+        virtual ~JPhase(void);
+        void load_texture(SDL_Renderer* sdl_renderer, struct sized_texture *texture, string filename);
+        virtual void init(void);
+        virtual void close(void);
+        virtual int run_phase(void);             
+        virtual void render_phase(SDL_Renderer* sdl_renderer);
+        virtual void update_phase(void);
+        virtual void load_media(void);
+        virtual void close_media(void);
+        virtual void process_input(SDL_Event *e);
 };
 
 class JEngine {
