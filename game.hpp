@@ -1,4 +1,3 @@
-#include "jphase.hpp"
 #include "jengine.hpp"
 
 #ifndef GAME_HPP
@@ -28,7 +27,7 @@ class Demo: public JPhase {
         ~Demo(void);
         void render_phase(SDL_Renderer* sdl_renderer);
         void update_phase(void);
-        void load_media(void);
+        void load_media(SDL_Renderer* sdl_renderer);
         void close_media(void);
         void process_input(SDL_Event *e);
         int run_phase(void);

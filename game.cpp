@@ -54,9 +54,9 @@ void Demo::update_phase() {
     y+=vy;
 }
 
-void Demo::load_media() {
-    JEngine::load_texture(&texture_background, "background.png");
-    JEngine::load_texture(&texture_sprites, "sprites.png");
+void Demo::load_media(SDL_Renderer* sdl_renderer) {
+    load_texture(sdl_renderer, &texture_background, "background.png");
+    load_texture(sdl_renderer, &texture_sprites, "sprites.png");
 }
 
 void Demo::close_media() {
@@ -92,4 +92,8 @@ void Demo::process_input(SDL_Event *e) {
     else if(e->type == SDL_KEYUP && (e->key.keysym.sym==SDLK_UP || e->key.keysym.sym==SDLK_DOWN)) {
         vy=0;
     }
+}
+
+int Demo::run_phase(void) {
+    return 0;
 }

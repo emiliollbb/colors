@@ -128,7 +128,7 @@ void JPhase::close(void){}
 int JPhase::run_phase(void){return -1;}
 void JPhase::render_phase(SDL_Renderer* sdl_renderer){}
 void JPhase::update_phase(void){}
-void JPhase::load_media(void){}
+void JPhase::load_media(SDL_Renderer* sdl_renderer){}
 void JPhase::close_media(void){}
 void JPhase::process_input(SDL_Event *e){}
 
@@ -311,7 +311,7 @@ void JEngine::run()
       if(this->current_phase!=this->previous_phase) {
         this->phases[current_phase]->init();
         // Load Media
-        this->phases[current_phase]->load_media();
+        this->phases[current_phase]->load_media(this->sdl_renderer);
         this->previous_phase=this->current_phase;
       }
         

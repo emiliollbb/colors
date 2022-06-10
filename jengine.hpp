@@ -57,7 +57,7 @@ class JPhase {
         virtual int run_phase(void);             
         virtual void render_phase(SDL_Renderer* sdl_renderer);
         virtual void update_phase(void);
-        virtual void load_media(void);
+        virtual void load_media(SDL_Renderer* sdl_renderer);
         virtual void close_media(void);
         virtual void process_input(SDL_Event *e);
 };
